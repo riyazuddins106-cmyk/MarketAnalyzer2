@@ -1,0 +1,131 @@
+# Market Language AI (MLAI)
+
+## My Vision
+
+I have an idea that I believe can fundamentally change how people learn and understand financial markets.
+
+Today, millions of people use trading platforms every day. They see candlestick charts filled with green and red candles, trend lines, indicators, support, resistance, and countless technical tools.
+
+The problem is that most people do not actually understand what they are looking at.
+
+They learn hundreds of indicator names, memorize chart patterns, and watch videos teaching them when to buy or sell.
+
+However, very few people truly understand what the market itself is communicating.
+
+I believe the market is already speaking.
+
+The problem is that people do not understand its language.
+
+Imagine standing in a room where everyone is speaking a language you have never learned.
+
+You hear words.
+
+You see emotions.
+
+You know people are communicating something important.
+
+But you cannot understand the conversation.
+
+That is exactly how most beginners experience financial charts.
+
+The candles are speaking.
+
+The market is speaking.
+
+Buyers are speaking.
+
+Sellers are speaking.
+
+But the trader cannot understand their language.
+
+My vision is to build an artificial intelligence system that becomes a translator between the market and the human being.
+
+Instead of forcing users to memorize hundreds of technical patterns, the AI will simply explain what the market is trying to communicate.
+
+For example, instead of saying,
+
+"Bearish Engulfing"
+
+the AI would explain,
+
+"Sellers have completely overwhelmed the previous buying pressure. Buyers attempted to continue higher, but sellers took control and forced prices lower."
+
+Instead of saying,
+
+"Hammer"
+
+the AI would explain,
+
+"Sellers pushed prices lower, but buyers strongly rejected those lower prices before the candle closed. Buyers are showing strength in this area."
+
+The user no longer needs to memorize complicated terminology.
+
+The AI translates everything into simple English.
+
+The AI will not behave like another trading indicator.
+
+It will not simply generate Buy or Sell signals.
+
+Instead, it will think like an experienced professional trader who sits beside the user and explains the chart in real time.
+
+The AI will continuously answer questions such as:
+
+What is happening?
+
+Why is it happening?
+
+Who is stronger?
+
+Who is weaker?
+
+What changed?
+
+What evidence supports this conclusion?
+
+What should we pay attention to next?
+
+The AI will explain every support level, every resistance level, every trend, every reversal, every consolidation, every breakout, and every important market event.
+
+It will never draw lines without explanation.
+
+Every line will have a reason.
+
+Every conclusion will have evidence.
+
+The system will constantly observe the market, collect evidence, remember previous important events, update the market story, and explain everything in language that anyone can understand.
+
+I also want the system to become a teacher.
+
+As the AI explains the market, it will highlight candles, draw arrows, mark important areas, and visually point to the evidence it is discussing.
+
+The user will feel as though an expert mentor is teaching them personally.
+
+Another important feature is replay mode.
+
+The user can replay historical charts one candle at a time.
+
+The AI explains every candle exactly as it appears without using future information.
+
+This allows beginners to learn how experienced traders think in real market conditions.
+
+In the future, I also want the AI to study large amounts of historical market data.
+
+Its purpose is not to predict the future with certainty.
+
+Its purpose is to recognize recurring market behaviours, improve its understanding of evidence, and become a better teacher over time.
+
+The AI should always remain honest.
+
+It should never pretend to know the future.
+
+Instead, it should explain what the market has already communicated and describe which scenarios currently appear more likely based on the available evidence.
+
+Ultimately, I do not want to build another trading application.
+
+I want to build a Market Language AI.
+
+An intelligent system that teaches people how to understand the language of financial markets instead of blindly following signals.
+
+If successful, this product could help beginners learn faster, help experienced traders explain their reasoning more clearly, and make market education more accessible to people around the world.
+
+My long-term vision is for Market Language AI to become the world's most trusted market interpreter—an AI mentor that helps people understand the market through evidence, reasoning, and education rather than prediction.
