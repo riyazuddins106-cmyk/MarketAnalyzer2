@@ -1,0 +1,156 @@
+# Replit AI Prompt — Phase 3.1: Design the Core Database for Market Language AI (MLAI)
+
+## Objective
+
+Act as a **Senior Database Architect**, **PostgreSQL Expert**, **Supabase Expert**, and **Enterprise Software Architect**.
+
+Your task is **NOT** to generate application code.
+
+Your task is to design the **complete Core Database Schema** for the Market Language AI (MLAI) platform.
+
+The output should be a production-ready database architecture that is scalable, normalized, secure, and suitable for millions of users.
+
+---
+
+# Design Principles
+
+* Use PostgreSQL (Supabase compatible).
+* Follow Third Normal Form (3NF) unless a documented optimization justifies otherwise.
+* Every table must have:
+
+  * Primary key
+  * Foreign keys
+  * Constraints
+  * Appropriate indexes
+  * `created_at`
+  * `updated_at`
+  * Soft-delete support where appropriate (`deleted_at`)
+* Use UUIDs for primary keys.
+* Design for high read/write performance.
+* Support horizontal scaling where possible.
+* Avoid duplicate or redundant data.
+* Document every relationship.
+
+---
+
+# Core Modules to Model
+
+Design the schema for the following foundational modules:
+
+1. Users
+2. User Profiles
+3. Roles
+4. Permissions
+5. Role-Permission Mapping
+6. Markets (Forex, Stocks, Crypto, Commodities, etc.)
+7. Exchanges
+8. Symbols / Instruments
+9. Timeframes
+10. Candle Data
+11. Live Market Sessions
+12. Watchlists
+13. User Favorite Symbols
+14. User Preferences
+15. Saved Chart Layouts
+16. Learning Level (Beginner, Intermediate, Advanced, Professional)
+17. User Settings
+18. API Providers
+19. Data Source Configuration
+20. System Configuration
+
+---
+
+# Candle Data Requirements
+
+The candle storage must support:
+
+* Open
+* High
+* Low
+* Close
+* Volume
+* Timestamp
+* Symbol
+* Timeframe
+* Market
+* Exchange
+* Adjusted values if required
+* Data quality flags
+* Import source
+* Versioning (if corrections occur)
+
+Optimize for fast historical retrieval.
+
+---
+
+# Relationships
+
+Clearly define:
+
+* One-to-One
+* One-to-Many
+* Many-to-Many
+
+Include foreign-key constraints and explain why each relationship exists.
+
+---
+
+# Index Strategy
+
+Recommend indexes for:
+
+* Symbol lookups
+* Timeframe queries
+* Historical candle retrieval
+* User watchlists
+* User preferences
+* API provider lookups
+* High-frequency reads
+
+Explain why each index is needed.
+
+---
+
+# Constraints
+
+Use:
+
+* NOT NULL
+* UNIQUE
+* CHECK constraints
+* ENUMs where appropriate
+* Cascading rules only where safe
+
+---
+
+# Performance
+
+Design for:
+
+* Millions of users
+* Billions of historical candles
+* Fast chart loading
+* Efficient pagination
+* Concurrent reads and writes
+* Low-latency historical queries
+
+---
+
+# Deliverables
+
+Provide:
+
+1. Complete list of tables
+2. Column definitions with data types
+3. Primary keys
+4. Foreign keys
+5. Relationship explanations
+6. Index recommendations
+7. Constraint recommendations
+8. Entity Relationship (ER) overview in text
+9. Scalability considerations
+10. Future extensibility recommendations
+
+Do **NOT** generate application code or SQL migrations in this phase.
+
+Focus only on creating a complete, production-ready database blueprint that will serve as the foundation for the entire Market Language AI platform.
