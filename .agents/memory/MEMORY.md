@@ -1,0 +1,1 @@
+- [MLAI reasoning boundary](mlai-reasoning-boundary.md) — deterministic market evidence is authoritative; AI is a grounded narration layer, never the source of chart facts.
