@@ -20,3 +20,9 @@ Avoid presenting a single confidence percentage as a prediction or signal. Separ
 **Why:** A system can be highly confident about an observed rejection while remaining uncertain about what price will do next. One percentage would collapse these different claims and encourage signal-like use.
 
 **How to apply:** Store structured confidence dimensions with evidence provenance. If evidence is weak or conflicting, publish an explicit waiting state instead of manufacturing a low or medium directional score.
+
+Evidence must distinguish observable facts from derived interpretations. Facts may be immutable observations; interpretations are versioned assessments that can weaken or become invalidated without deleting the underlying facts.
+
+**Why:** Labels such as “higher high” or “long lower wick” are chart observations, while “buyers are stronger,” “accumulation,” and “liquidity sweep” depend on context and data quality. Mixing them makes provenance and replay validation unreliable.
+
+**How to apply:** Require evidence IDs, chart ranges, dataset/revision, visibility boundary, source, engine version, quality flags, and supporting/contradicting links. Treat invalidation as an append-only status transition. Do not double-count correlated evidence or use future historical outcomes in replay.
