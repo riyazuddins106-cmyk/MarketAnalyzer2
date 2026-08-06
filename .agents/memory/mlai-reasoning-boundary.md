@@ -26,3 +26,9 @@ Evidence must distinguish observable facts from derived interpretations. Facts m
 **Why:** Labels such as “higher high” or “long lower wick” are chart observations, while “buyers are stronger,” “accumulation,” and “liquidity sweep” depend on context and data quality. Mixing them makes provenance and replay validation unreliable.
 
 **How to apply:** Require evidence IDs, chart ranges, dataset/revision, visibility boundary, source, engine version, quality flags, and supporting/contradicting links. Treat invalidation as an append-only status transition. Do not double-count correlated evidence or use future historical outcomes in replay.
+
+Market memory should be an append-only, replay-bounded history of observed events, derived context, and story transitions; current memory views are projections, not mutable truth.
+
+**Why:** A level or trend can weaken, break, or change role without erasing what previously happened. Immutable history preserves auditability, supports deterministic replay, and prevents hindsight from entering current context.
+
+**How to apply:** Keep market memory separate from learner memory and trading-decision history. Retrieve memory through a relevance-aware context builder keyed by dataset revision, visibility boundary, instrument, timeframe, and market profile. Write memory only after a reasoning cycle is validated.

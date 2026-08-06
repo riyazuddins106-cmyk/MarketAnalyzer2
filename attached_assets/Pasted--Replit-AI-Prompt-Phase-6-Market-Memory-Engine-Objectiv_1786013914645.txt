@@ -1,0 +1,519 @@
+# Replit AI Prompt — Phase 6: Market Memory Engine
+
+## Objective
+
+Act as a team consisting of:
+
+* Senior Quantitative Researcher
+* Institutional Market Analyst
+* AI Memory Architect
+* Machine Learning Engineer
+* Data Architect
+* Backend System Architect
+* Financial Education Expert
+
+Your task is to design and implement the **Market Memory Engine** for Market Language AI (MLAI).
+
+The Market Memory Engine is responsible for giving the AI a historical understanding of the market.
+
+It allows MLAI to remember:
+
+* What happened before
+* Why previous movements occurred
+* Important price areas
+* Historical reactions
+* Market behavior patterns
+* Previous decisions and outcomes
+
+The AI should not analyze markets with short-term memory only.
+
+It should understand the evolving story of the market.
+
+---
+
+# Core Philosophy
+
+A professional trader does not look at one candle.
+
+A professional trader remembers:
+
+"Price has rejected this area three times."
+
+"The last breakout from this zone failed."
+
+"Buyers defended this level yesterday."
+
+"Momentum has weakened compared with the previous move."
+
+The Market Memory Engine creates this intelligence.
+
+---
+
+# Mission
+
+Transform historical market events into meaningful memory.
+
+The system should continuously build a market history timeline.
+
+Instead of:
+
+"Current candle is bullish."
+
+The AI should understand:
+
+"Buyers are attempting another advance after defending a support zone that previously caused two successful reversals."
+
+---
+
+# Memory Categories
+
+The engine must maintain multiple types of memory.
+
+---
+
+# 1. Price Memory
+
+Store important price events.
+
+Examples:
+
+* Major highs
+* Major lows
+* Swing points
+* Previous breakout points
+* Previous rejection areas
+* Previous consolidation zones
+* Historical support
+* Historical resistance
+
+Each memory should contain:
+
+* Price level
+* Time created
+* Number of reactions
+* Strength
+* Current status
+* Historical importance
+
+---
+
+# 2. Market Structure Memory
+
+Remember structural events.
+
+Examples:
+
+* Beginning of trend
+* Trend continuation
+* Trend weakening
+* Break of structure
+* Change of character
+* Range formation
+* Accumulation
+* Distribution
+
+Example:
+
+"The current uptrend started 120 candles ago after a confirmed structure change."
+
+---
+
+# 3. Event Memory
+
+Store important market events.
+
+Examples:
+
+* Strong breakout
+* Failed breakout
+* Liquidity sweep
+* Large rejection
+* Volatility expansion
+* Sudden volume increase
+* Trend reversal
+
+Each event should store:
+
+Event type
+
+Time
+
+Symbol
+
+Timeframe
+
+Price location
+
+Evidence
+
+Outcome
+
+---
+
+# 4. Support and Resistance Memory
+
+The AI should remember how price behaved around levels.
+
+Example:
+
+Resistance Zone:
+
+Price tested 5 times.
+
+Rejected 4 times.
+
+Successfully broken once.
+
+Current status:
+
+Potential support.
+
+---
+
+Memory should track:
+
+* Number of tests
+* Strength
+* Reaction size
+* Time since last interaction
+* Break status
+* Retest history
+
+---
+
+# 5. Trend Memory
+
+The system should remember trend history.
+
+Example:
+
+Trend:
+
+Bullish
+
+Started:
+
+January 15
+
+Duration:
+
+85 candles
+
+Strength:
+
+High
+
+Previous corrections:
+
+3
+
+Current condition:
+
+Momentum slowing
+
+---
+
+Store:
+
+Trend direction
+
+Trend duration
+
+Trend strength
+
+Trend changes
+
+Trend failures
+
+---
+
+# 6. Liquidity Memory
+
+Remember areas where market participants previously reacted.
+
+Examples:
+
+* Equal highs
+* Equal lows
+* Stop areas
+* Failed moves
+* Liquidity grabs
+
+Example:
+
+"Previous equal highs created a liquidity zone that was swept before reversal."
+
+---
+
+# 7. Volume Memory
+
+Remember participation behavior.
+
+Examples:
+
+* Highest volume candle
+* Volume climax
+* Low participation areas
+* Volume confirmation zones
+
+Example:
+
+"Previous breakout succeeded because volume increased 45% compared with the average."
+
+---
+
+# Memory Object Design
+
+Every memory item should contain:
+
+```json
+{
+"type":"ResistanceZone",
+"symbol":"BTCUSD",
+"timeframe":"4H",
+"priceRange":{
+"low":60000,
+"high":61000
+},
+"createdAt":"timestamp",
+"strength":0.82,
+"reactions":5,
+"status":"Active",
+"relatedEvents":[
+"BreakoutAttempt",
+"Rejection"
+]
+}
+```
+
+---
+
+# Memory Lifecycle
+
+Every memory should evolve.
+
+States:
+
+Created
+
+Confirmed
+
+Strengthened
+
+Weakened
+
+Broken
+
+Expired
+
+Archived
+
+Example:
+
+Resistance:
+
+Created
+
+↓
+Rejected three times
+
+↓
+Strength increased
+
+↓
+Broken successfully
+
+↓
+Converted into support memory
+
+---
+
+# Memory Ranking System
+
+Not all memories have equal importance.
+
+The system should rank memories based on:
+
+Recency
+
+Number of reactions
+
+Reaction strength
+
+Volume involvement
+
+Timeframe importance
+
+Market impact
+
+Current relevance
+
+---
+
+# Multi-Timeframe Memory
+
+Memory must work across different timeframes.
+
+Example:
+
+Daily resistance
+
+↓
+Creates
+
+4-hour reaction
+
+↓
+Creates
+
+15-minute breakout attempt
+
+The AI should understand relationships between timeframes.
+
+---
+
+# Market Story Integration
+
+The Market Memory Engine feeds the Story Engine.
+
+Example:
+
+Memory:
+
+"Support held four times."
+
+Current Event:
+
+"Price rejected support again."
+
+AI Explanation:
+
+"Buyers continue defending this area. Previous reactions suggest this level has historical importance."
+
+---
+
+# Replay Mode Requirements
+
+Memory must respect replay rules.
+
+During replay:
+
+Future events do not exist.
+
+Memory is created only as candles appear.
+
+The AI must not remember future support/resistance.
+
+This prevents hindsight bias.
+
+---
+
+# Database Requirements
+
+Create storage for:
+
+* Market memories
+* Memory events
+* Price zones
+* Trend history
+* Structural changes
+* Historical reactions
+* Memory relationships
+* Memory confidence
+
+Optimize for:
+
+Fast retrieval
+
+Symbol filtering
+
+Timeframe filtering
+
+Historical analysis
+
+---
+
+# API Requirements
+
+Provide APIs for:
+
+Create memory
+
+Update memory
+
+Retrieve active memories
+
+Search historical events
+
+Rank important memories
+
+Invalidate memory
+
+Generate market context
+
+---
+
+# AI Integration
+
+The AI Interpreter receives:
+
+Current Market Data
+
+*
+
+Evidence Engine Output
+
+*
+
+Market Memory Context
+
+Then generates explanations.
+
+Example:
+
+Evidence:
+
+Bullish candle
+
+Memory:
+
+Previous support defended 5 times
+
+AI Output:
+
+"Buyers are showing strength near a historically defended support area. Previous reactions from this zone suggest this level has attracted demand."
+
+---
+
+# Future Expansion
+
+The architecture should allow adding:
+
+* News memory
+* Economic event memory
+* Sentiment memory
+* Trader behavior memory
+* AI learned market patterns
+* Cross-market memory
+
+---
+
+# Final Goal
+
+The Market Memory Engine should make MLAI think like an experienced trader.
+
+It should not only understand:
+
+"What is happening now?"
+
+It should understand:
+
+"What happened before?"
+
+"Why does this area matter?"
+
+"How did the market behave here previously?"
+
+"What story has been developing over time?"
+
+This memory transforms raw charts into market understanding.
