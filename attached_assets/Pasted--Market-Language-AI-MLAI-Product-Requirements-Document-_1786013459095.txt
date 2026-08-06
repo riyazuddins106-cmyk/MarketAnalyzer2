@@ -1,0 +1,179 @@
+# Market Language AI (MLAI)
+
+## Product Requirements Document (PRD)
+
+### Product Name
+
+Market Language AI (MLAI)
+
+---
+
+## Mission
+
+Market Language AI exists to help people understand what financial markets are communicating.
+
+The system does not aim to predict the future with certainty or replace human judgment.
+
+Its purpose is to translate market behavior into clear, evidence-based explanations so users learn how buyers and sellers interact over time.
+
+MLAI should function as an intelligent market mentor that teaches users to interpret charts rather than memorize terminology or follow trading signals.
+
+---
+
+## Vision
+
+Create the world's most trusted AI market interpreter.
+
+The platform should explain:
+
+* What happened
+* Why it happened
+* Who currently controls the market
+* What evidence supports the interpretation
+* What scenarios deserve attention next
+
+Every explanation must be grounded in observable market evidence.
+
+---
+
+## Core Principles
+
+### Education First
+
+MLAI exists to teach, not to provide guaranteed trading outcomes.
+
+### Evidence Before Opinion
+
+Every conclusion must be supported by chart evidence.
+
+### Transparency
+
+The AI should clearly communicate confidence levels and alternative interpretations.
+
+### Context Matters
+
+A single candle should never be analyzed in isolation. Interpretations must consider trend, structure, volume, volatility, and prior events.
+
+### No Certainty
+
+The AI must never claim to know the future.
+
+---
+
+## What MLAI Is
+
+* A market interpreter
+* An educational platform
+* A chart explanation engine
+* A market storytelling system
+* An AI mentor
+* A replay-based learning platform
+* A reasoning engine
+
+---
+
+## What MLAI Is Not
+
+* A signal service
+* A guaranteed prediction engine
+* A "buy now" or "sell now" application
+* Financial advice
+* A get-rich-quick platform
+
+---
+
+## Primary Users
+
+### Beginner
+
+Needs plain-language explanations and guided learning.
+
+### Intermediate Trader
+
+Wants deeper reasoning and evidence.
+
+### Advanced Trader
+
+Uses MLAI to validate and challenge interpretations.
+
+### Educator
+
+Uses replay mode and annotations to teach students.
+
+### Researcher
+
+Studies recurring market behavior through AI-generated narratives.
+
+---
+
+## Supported Markets
+
+The architecture should support multiple asset classes, including:
+
+* Forex
+* Stocks
+* Indices
+* Commodities
+* Cryptocurrencies
+* Futures (future roadmap)
+
+Adding a new market should require configuration rather than redesign.
+
+---
+
+## Supported Timeframes
+
+From one minute through monthly charts.
+
+Interpretations should adapt naturally to the selected timeframe while preserving context.
+
+---
+
+## Functional Objectives
+
+The platform should:
+
+* Explain live charts in real time
+* Explain historical charts
+* Build a continuous market narrative
+* Annotate charts with educational visuals
+* Maintain memory of important events
+* Allow users to ask questions about the chart
+* Support candle-by-candle replay
+* Adapt explanations to user experience level
+
+---
+
+## Non-Functional Objectives
+
+The system should be:
+
+* Scalable
+* Modular
+* Extensible
+* Low-latency
+* Secure
+* Auditable
+* Testable
+
+Each major capability should exist as an independent module with well-defined interfaces.
+
+---
+
+## Success Criteria
+
+MLAI succeeds when users can answer:
+
+* Why did price move?
+* What evidence supports this interpretation?
+* Who is stronger?
+* Which assumptions changed?
+* What should I watch next?
+
+without relying on memorized pattern names or blind signals.
+
+---
+
+## Long-Term Goal
+
+Become the global standard for AI-assisted market education by helping people understand the language of financial markets through reasoning, evidence, transparency, and continuous learning.
