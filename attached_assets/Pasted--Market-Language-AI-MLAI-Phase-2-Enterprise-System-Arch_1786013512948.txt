@@ -1,0 +1,609 @@
+# Market Language AI (MLAI)
+
+# Phase 2 — Enterprise System Architecture
+
+---
+
+# Objective
+
+Design a modular, enterprise-grade architecture capable of scaling from a single-user educational platform to millions of concurrent users while maintaining low latency, reliability, and maintainability.
+
+The architecture must separate concerns so each component can evolve independently.
+
+---
+
+# High-Level Architecture
+
+```
+                        +----------------------+
+                        |   Web Application    |
+                        |  (React + Next.js)   |
+                        +----------+-----------+
+                                   |
+                                   |
+                    HTTPS / WebSocket Connection
+                                   |
+                                   |
+                        +----------+-----------+
+                        |      API Gateway     |
+                        +----------+-----------+
+                                   |
+      -------------------------------------------------------------
+      |        |          |         |         |         |           |
+      |        |          |         |         |         |           |
+      ▼        ▼          ▼         ▼         ▼         ▼           ▼
+
+ Authentication   Market Data   AI Engine   Replay   User Data   Admin
+    Service         Service      Service    Engine    Service    Service
+
+                                   |
+                         --------------------
+                         |                  |
+                         ▼                  ▼
+
+                Evidence Engine     Market Memory Engine
+
+                         |
+                         ▼
+
+                 Story Generation Engine
+
+                         |
+                         ▼
+
+                  Annotation Engine
+
+                         |
+                         ▼
+
+                AI Conversation Engine
+
+```
+
+---
+
+# Core Design Principles
+
+Every service has one responsibility.
+
+Every module communicates through APIs.
+
+No module directly depends on another module's internal implementation.
+
+Every service can be upgraded independently.
+
+---
+
+# Client Layer
+
+Responsibilities
+
+* Interactive charts
+* User interface
+* Replay controls
+* AI explanations
+* Settings
+* Learning mode
+* Chat interface
+* Notifications
+
+Technology
+
+* React
+* TypeScript
+* Next.js (or Vite if preferred)
+* Tailwind CSS
+* TradingView Charting Library
+
+---
+
+# API Gateway
+
+Purpose
+
+Single entry point for all client requests.
+
+Responsibilities
+
+* Authentication
+* Rate limiting
+* Request routing
+* Logging
+* API versioning
+* Security
+* WebSocket upgrades
+
+---
+
+# Authentication Service
+
+Responsibilities
+
+* Registration
+* Login
+* Password reset
+* Email verification
+* Subscription validation
+* JWT issuance
+* Session management
+* OAuth support (future)
+
+---
+
+# User Service
+
+Stores
+
+* Profile
+* Preferences
+* Learning level
+* Saved layouts
+* Watchlists
+* AI settings
+* Replay progress
+* Educational progress
+* Subscription details
+
+---
+
+# Market Data Service
+
+Responsibilities
+
+Receive real-time and historical market data.
+
+Supported providers should be pluggable.
+
+Possible integrations include:
+
+* Polygon.io
+* Twelve Data
+* Alpha Vantage
+* Binance
+* OANDA
+* Interactive Brokers
+* Broker APIs
+* CSV import (offline learning)
+
+Functions
+
+* Live streaming
+* Historical downloads
+* Candle normalization
+* Timeframe aggregation
+* Data validation
+* Missing candle detection
+
+---
+
+# AI Interpretation Service
+
+This is the brain of MLAI.
+
+Responsibilities
+
+Analyze every incoming candle.
+
+Detect
+
+Trend
+
+Structure
+
+Momentum
+
+Buyer strength
+
+Seller strength
+
+Market transitions
+
+Context
+
+Generate reasoning.
+
+Never generate trading signals.
+
+Outputs
+
+* Explanation
+* Evidence
+* Confidence
+* Alternative scenarios
+
+---
+
+# Evidence Engine
+
+Every statement produced by the AI must reference observable chart evidence.
+
+Example evidence
+
+Higher High
+
+Lower Low
+
+Long Upper Wick
+
+Strong Close
+
+High Volume
+
+False Breakout
+
+Support Retest
+
+Gap
+
+Liquidity Sweep
+
+No conclusion should exist without evidence.
+
+---
+
+# Market Memory Engine
+
+Purpose
+
+Remember important historical context.
+
+Stores
+
+Trend origin
+
+Major breakout
+
+Previous resistance
+
+Swing highs
+
+Swing lows
+
+Volume spikes
+
+Fake breakouts
+
+Liquidity events
+
+News impact markers (future)
+
+The AI uses memory before explaining new candles.
+
+---
+
+# Story Engine
+
+The Story Engine converts isolated observations into a continuous narrative.
+
+Instead of
+
+"Candle is bullish"
+
+It explains
+
+"The market has remained under buyer control for the last 84 candles. Sellers attempted two reversals but failed to break support. Momentum is slowing, although buyers still maintain structural control."
+
+---
+
+# Annotation Engine
+
+Responsible for visual teaching.
+
+Draw
+
+Support
+
+Resistance
+
+Trendlines
+
+Channels
+
+Swing points
+
+Breakout boxes
+
+Liquidity zones
+
+Volume zones
+
+Arrows
+
+Labels
+
+Highlights
+
+Annotations must be interactive.
+
+Every annotation has an explanation tooltip.
+
+---
+
+# Replay Engine
+
+One of the most important services.
+
+Rules
+
+Never access future candles.
+
+Reveal one candle at a time.
+
+Recompute analysis after every candle.
+
+Allow
+
+Pause
+
+Forward
+
+Backward
+
+Speed adjustment
+
+Bookmarks
+
+Lessons
+
+Replay is deterministic.
+
+Running the same replay twice should produce the same interpretation.
+
+---
+
+# Conversation Engine
+
+Provides AI chat.
+
+Users ask
+
+Why?
+
+How?
+
+Explain this candle.
+
+Why resistance?
+
+Why trend?
+
+What changed?
+
+The engine accesses
+
+Current chart
+
+Market memory
+
+Evidence
+
+Annotations
+
+Historical context
+
+User level
+
+Then generates educational responses.
+
+---
+
+# Learning Engine
+
+Adjusts explanations according to experience level.
+
+Levels
+
+Beginner
+
+Intermediate
+
+Advanced
+
+Professional
+
+Each level changes
+
+Vocabulary
+
+Explanation depth
+
+Complexity
+
+Examples
+
+Institutional terminology
+
+---
+
+# Historical Learning Engine (Future)
+
+Purpose
+
+Improve explanations using historical market behavior.
+
+Responsibilities
+
+Study millions of historical candles.
+
+Find recurring structures.
+
+Improve educational quality.
+
+Never optimize for prediction accuracy.
+
+Optimize for explanation quality.
+
+---
+
+# Notification Service
+
+Alerts
+
+Replay completed
+
+Learning milestones
+
+AI insights
+
+System updates
+
+Price alerts (future)
+
+---
+
+# Admin Service
+
+Manage
+
+Users
+
+Subscriptions
+
+Market providers
+
+AI prompts
+
+System logs
+
+Replay datasets
+
+Feedback
+
+Analytics
+
+Usage
+
+API keys
+
+Feature flags
+
+---
+
+# Logging Service
+
+Track
+
+Errors
+
+Latency
+
+AI responses
+
+Replay metrics
+
+API usage
+
+Failures
+
+Performance
+
+---
+
+# Database Layer
+
+Primary Database
+
+PostgreSQL
+
+Cache
+
+Redis
+
+Object Storage
+
+Charts
+
+Images
+
+Replay datasets
+
+Logs
+
+---
+
+# WebSocket Layer
+
+Real-time communication for
+
+Live candles
+
+AI explanations
+
+Annotations
+
+Replay updates
+
+Notifications
+
+Chat
+
+---
+
+# Security Layer
+
+JWT Authentication
+
+Role-based access control
+
+Rate limiting
+
+Encryption
+
+API validation
+
+Audit logging
+
+Secure secrets management
+
+---
+
+# Scalability
+
+The architecture must support:
+
+* Millions of users
+* Thousands of concurrent live streams
+* Independent service scaling
+* Horizontal scaling
+* Cloud deployment
+* Containerized services
+* CI/CD pipelines
+
+---
+
+# Future Expansion
+
+The architecture should allow adding:
+
+* Multi-agent AI collaboration
+* Voice explanations
+* Mobile applications
+* Broker integrations
+* AI-assisted journaling
+* Strategy comparison
+* Portfolio analysis
+* Institutional analytics
+* Community learning
+* Marketplace for educational content
+
+without redesigning the existing system.
+
+---
+
+# Architecture Philosophy
+
+Every module should answer one question well.
+
+The Market Data Service knows what happened.
+
+The Evidence Engine knows why it matters.
+
+The Market Memory Engine knows what happened before.
+
+The Story Engine connects the events.
+
+The Annotation Engine visualizes the evidence.
+
+The Conversation Engine teaches the user.
+
+Together, these components transform raw market data into understandable market language.
