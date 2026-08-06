@@ -1,0 +1,507 @@
+# Replit AI Prompt — Phase 7: Market Story Engine
+
+## Objective
+
+Act as a team consisting of:
+
+* Institutional Trading Analyst
+* AI Narrative Architect
+* Quantitative Researcher
+* Natural Language Processing Engineer
+* Market Psychology Expert
+* Backend System Architect
+* Financial Education Designer
+
+Your task is to design and implement the **Market Story Engine** for Market Language AI (MLAI).
+
+The Market Story Engine transforms raw market observations into a continuous, understandable explanation of what the market is communicating.
+
+---
+
+# Core Philosophy
+
+Markets are not a collection of independent candles.
+
+Every candle is part of a larger story.
+
+A professional trader does not think:
+
+"Candle went up."
+
+They think:
+
+"Buyers have been defending this area for several sessions. Sellers attempted multiple reversals but failed. The recent breakout shows increased buyer confidence, although momentum is beginning to slow."
+
+The Market Story Engine creates this type of thinking.
+
+---
+
+# Mission
+
+Convert:
+
+Market Data
+
+*
+
+Evidence Engine Output
+
+*
+
+Market Memory
+
+*
+
+Structural Analysis
+
+into:
+
+A continuous market narrative.
+
+---
+
+# The Engine Must Answer
+
+At every moment:
+
+## What is happening?
+
+Describe the current market condition.
+
+Example:
+
+"The market is currently trading inside a consolidation range after a strong upward move."
+
+---
+
+## Why is it happening?
+
+Explain the reason using evidence.
+
+Example:
+
+"Buyers are taking profits after the previous expansion, while sellers have not yet created enough pressure to reverse the trend."
+
+---
+
+## Who is stronger?
+
+Analyze:
+
+Buyer control
+
+Seller control
+
+Balance
+
+Uncertainty
+
+---
+
+## What changed?
+
+Compare current conditions with previous conditions.
+
+Example:
+
+"Momentum has weakened compared with the previous impulse move."
+
+---
+
+## What matters now?
+
+Identify important observations.
+
+Example:
+
+"The key area to monitor is the previous support zone because it determines whether buyers maintain control."
+
+---
+
+# Story Components
+
+The story should contain multiple layers.
+
+---
+
+# 1. Market Overview
+
+A simple summary.
+
+Example:
+
+"Gold remains in an upward structure, but recent candles show reduced momentum near resistance."
+
+---
+
+# 2. Current Phase Identification
+
+Classify the market phase.
+
+Possible states:
+
+* Trending upward
+* Trending downward
+* Consolidation
+* Accumulation
+* Distribution
+* Breakout attempt
+* Post-breakout continuation
+* Reversal attempt
+* Uncertainty
+
+---
+
+# 3. Market Journey
+
+Explain how the market arrived here.
+
+Example:
+
+"The current move began after buyers successfully defended the previous demand zone. The following breakout created a higher high, confirming temporary buyer dominance."
+
+---
+
+# 4. Buyer Story
+
+Explain buyer behavior.
+
+Analyze:
+
+* Buying pressure
+* Defense areas
+* Aggression
+* Weakness
+* Exhaustion
+
+Example:
+
+"Buyers remain active, but their candles are becoming smaller, suggesting reduced urgency."
+
+---
+
+# 5. Seller Story
+
+Explain seller behavior.
+
+Analyze:
+
+* Selling pressure
+* Rejections
+* Failed attempts
+* Increasing control
+
+Example:
+
+"Sellers have repeatedly rejected higher prices near resistance but have not yet created a lower low."
+
+---
+
+# 6. Battle Between Buyers and Sellers
+
+The engine should explain market conflict.
+
+Example:
+
+"Buyers are attempting continuation, while sellers are defending the previous resistance zone. The current price action represents a struggle for control."
+
+---
+
+# 7. Important Areas
+
+Reference:
+
+Support
+
+Resistance
+
+Liquidity zones
+
+Previous events
+
+Historical reactions
+
+Example:
+
+"This resistance area is important because price previously failed here three times."
+
+---
+
+# 8. Scenario Analysis
+
+The engine must not predict.
+
+It should explain possible outcomes.
+
+Example:
+
+Scenario A:
+
+"If buyers continue defending support, upward continuation becomes more likely."
+
+Scenario B:
+
+"If support fails, the current bullish structure becomes weaker."
+
+---
+
+# Story Generation Rules
+
+The story must:
+
+* Use simple language
+* Avoid unnecessary jargon
+* Explain technical terms
+* Reference evidence
+* Reference historical context
+* Show uncertainty honestly
+
+---
+
+# Story Memory
+
+The engine should maintain a timeline.
+
+Example:
+
+Timeline:
+
+Event 1:
+
+Strong selling created support zone.
+
+Event 2:
+
+Buyers defended support.
+
+Event 3:
+
+Breakout occurred.
+
+Event 4:
+
+Momentum slowed near resistance.
+
+Current:
+
+Market deciding next direction.
+
+---
+
+# Story Evolution
+
+Stories should update dynamically.
+
+Old information should not dominate forever.
+
+Example:
+
+Old:
+
+"Resistance rejected price three times."
+
+New:
+
+"Resistance has now been broken and successfully retested."
+
+The story must update.
+
+---
+
+# Story Confidence
+
+Every generated story should include:
+
+Confidence Level
+
+Supporting Evidence
+
+Uncertainty
+
+Missing Information
+
+Example:
+
+Confidence:
+
+78%
+
+Based on:
+
+* Higher lows
+* Strong support reaction
+* Increased participation
+
+Uncertainty:
+
+* Resistance has not been tested again
+
+---
+
+# User Experience Modes
+
+The story should adapt to user level.
+
+---
+
+## Beginner Mode
+
+Example:
+
+"Buyers are currently stronger because they are pushing prices higher and defending lower prices."
+
+---
+
+## Intermediate Mode
+
+Example:
+
+"Price structure remains bullish with higher lows and successful support reactions."
+
+---
+
+## Advanced Mode
+
+Example:
+
+"Bullish market structure remains intact, but decreasing impulse strength suggests potential momentum exhaustion."
+
+---
+
+## Professional Mode
+
+Example:
+
+"Structural continuation remains valid, although reduced displacement and declining participation indicate weakening directional conviction."
+
+---
+
+# Data Input
+
+The Story Engine receives:
+
+From Market Data:
+
+* OHLC candles
+* Volume
+* Timeframe
+
+From Evidence Engine:
+
+* Market observations
+* Confidence scores
+
+From Memory Engine:
+
+* Historical context
+* Important zones
+* Previous events
+
+From Analysis Engines:
+
+* Trend
+* Momentum
+* Structure
+
+---
+
+# Output Structure
+
+The engine should return:
+
+```
+Market Story
+
+Current Situation
+
+Market Phase
+
+Buyer Behavior
+
+Seller Behavior
+
+Historical Context
+
+Important Levels
+
+Recent Changes
+
+Possible Scenarios
+
+Confidence
+
+Educational Explanation
+```
+
+---
+
+# Replay Compatibility
+
+Replay mode must generate stories only from available information.
+
+No future events.
+
+No hindsight.
+
+The same replay sequence should produce consistent narratives.
+
+---
+
+# API Requirements
+
+Create APIs for:
+
+Generate current story
+
+Update story
+
+Retrieve historical stories
+
+Compare previous stories
+
+Generate beginner explanation
+
+Generate advanced explanation
+
+---
+
+# Performance Requirements
+
+Support:
+
+* Real-time updates
+* Multiple users
+* Multiple markets
+* Multiple timeframes
+* Historical replay
+
+---
+
+# Future Expansion
+
+Allow integration with:
+
+* News context
+* Sentiment data
+* Economic events
+* Order flow
+* Portfolio context
+* Voice explanation
+
+---
+
+# Final Goal
+
+The Market Story Engine should make users feel like they have an experienced market mentor beside them.
+
+The system should transform:
+
+Thousands of candles
+
+into
+
+One understandable story.
+
+The user should not just see price movement.
+
+They should understand the conversation happening between buyers and sellers.

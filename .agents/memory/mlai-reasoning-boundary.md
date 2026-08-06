@@ -32,3 +32,9 @@ Market memory should be an append-only, replay-bounded history of observed event
 **Why:** A level or trend can weaken, break, or change role without erasing what previously happened. Immutable history preserves auditability, supports deterministic replay, and prevents hindsight from entering current context.
 
 **How to apply:** Keep market memory separate from learner memory and trading-decision history. Retrieve memory through a relevance-aware context builder keyed by dataset revision, visibility boundary, instrument, timeframe, and market profile. Write memory only after a reasoning cycle is validated.
+
+The Market Story Engine should store structured, append-only story transitions and derive prose from them; narrative text is a presentation projection, not the source of market truth.
+
+**Why:** A story must explain what changed, preserve prior context, remain replay-deterministic, and update when old levels or interpretations are invalidated without relying on an LLM’s free-form continuity.
+
+**How to apply:** Model current phase, participant assessments, evidence references, contradictions, important areas, alternatives, changes, and next-evidence requirements as structured state. Adapt wording by learner level only after the shared story state is validated.

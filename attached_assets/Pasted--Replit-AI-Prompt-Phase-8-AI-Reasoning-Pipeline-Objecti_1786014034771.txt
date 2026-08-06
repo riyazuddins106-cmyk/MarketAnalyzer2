@@ -1,0 +1,525 @@
+# Replit AI Prompt — Phase 8: AI Reasoning Pipeline
+
+## Objective
+
+Act as a team consisting of:
+
+* AI Systems Architect
+* Quantitative Trading Researcher
+* Machine Learning Engineer
+* Cognitive Reasoning Engineer
+* Backend Architect
+* Financial Market Analyst
+* Natural Language Processing Engineer
+
+Your task is to design and implement the **AI Reasoning Pipeline** for Market Language AI (MLAI).
+
+The AI Reasoning Pipeline is the central intelligence workflow that coordinates all MLAI engines.
+
+It connects:
+
+Market Data
+
+↓
+
+Evidence Engine
+
+↓
+
+Market Memory Engine
+
+↓
+
+Analysis Engines
+
+↓
+
+Market Story Engine
+
+↓
+
+AI Explanation
+
+↓
+
+User Learning Experience
+
+---
+
+# Core Philosophy
+
+A human expert trader does not look at one indicator.
+
+They process multiple layers of information:
+
+* Current price behavior
+* Previous market events
+* Structure
+* Momentum
+* Volume
+* Context
+* Risk
+* Uncertainty
+
+MLAI must follow a similar reasoning process.
+
+---
+
+# Mission
+
+Create a transparent reasoning system that explains:
+
+"What is happening?"
+
+"Why is it happening?"
+
+"What evidence supports it?"
+
+"What information is missing?"
+
+"What possibilities exist?"
+
+---
+
+# Reasoning Architecture
+
+The pipeline should contain these stages:
+
+---
+
+# Stage 1 — Market Data Ingestion
+
+Input:
+
+* OHLC candles
+* Volume
+* Time
+* Symbol
+* Timeframe
+* Market session
+
+Tasks:
+
+* Validate data
+* Remove invalid candles
+* Normalize format
+* Store historical data
+* Send updates downstream
+
+---
+
+# Stage 2 — Market State Creation
+
+Create a current market snapshot.
+
+The snapshot should include:
+
+Price position
+
+Trend state
+
+Volatility state
+
+Momentum state
+
+Structure state
+
+Volume state
+
+Current zones
+
+Recent events
+
+---
+
+Example:
+
+```json
+{
+"symbol":"EURUSD",
+"timeframe":"1H",
+"trend":"bullish",
+"momentum":"slowing",
+"structure":"higher_high_higher_low",
+"volatility":"normal",
+"marketPhase":"continuation"
+}
+```
+
+---
+
+# Stage 3 — Evidence Collection
+
+The Evidence Engine analyzes the current state.
+
+Collect:
+
+* Structural evidence
+* Candle evidence
+* Volume evidence
+* Trend evidence
+* Momentum evidence
+* Support/resistance evidence
+* Breakout evidence
+
+Every observation must have:
+
+* Source
+* Confidence
+* Importance
+* Timestamp
+
+---
+
+# Stage 4 — Memory Retrieval
+
+The pipeline queries the Market Memory Engine.
+
+Retrieve:
+
+Previous important levels
+
+Historical reactions
+
+Similar situations
+
+Previous breakouts
+
+Trend history
+
+Market phase history
+
+---
+
+Example:
+
+Current:
+
+Price approaching resistance.
+
+Memory:
+
+This zone rejected price four times previously.
+
+---
+
+# Stage 5 — Multi-Factor Reasoning
+
+Combine all information.
+
+The AI should compare:
+
+Supporting evidence
+
+Opposing evidence
+
+Missing information
+
+Historical context
+
+Current behavior
+
+---
+
+Example:
+
+Supporting:
+
+* Higher lows
+* Strong support reaction
+
+Opposing:
+
+* Momentum decreasing
+
+Missing:
+
+* Breakout confirmation
+
+---
+
+# Stage 6 — Market Interpretation
+
+Generate an internal reasoning state.
+
+Example:
+
+"The market structure remains bullish, but recent momentum weakness suggests buyers are losing some urgency."
+
+This is not shown directly to users.
+
+It becomes the foundation for explanation.
+
+---
+
+# Stage 7 — Confidence Calculation
+
+Calculate confidence based on:
+
+Evidence strength
+
+Evidence quantity
+
+Evidence agreement
+
+Historical reliability
+
+Market clarity
+
+Contradictions
+
+---
+
+Example:
+
+Confidence:
+
+82%
+
+Reason:
+
+Multiple confirming signals.
+
+Reduced because:
+
+Momentum weakening.
+
+---
+
+# Stage 8 — Scenario Generation
+
+The AI should create possible scenarios.
+
+Never predictions.
+
+Example:
+
+Scenario 1:
+
+"If buyers continue defending support, upward continuation remains possible."
+
+Scenario 2:
+
+"If support breaks, the current bullish structure becomes weaker."
+
+---
+
+# Stage 9 — Educational Translation
+
+Convert professional reasoning into user-friendly language.
+
+Same reasoning:
+
+Professional:
+
+"Momentum divergence indicates reduced directional conviction."
+
+Beginner:
+
+"Price is still moving upward, but buyers are not pushing as strongly as before."
+
+---
+
+# Stage 10 — Visualization Instructions
+
+Generate instructions for the Chart Annotation Engine.
+
+Example:
+
+Highlight:
+
+Previous support
+
+Current rejection candle
+
+Resistance zone
+
+Important evidence
+
+---
+
+# Reasoning Memory
+
+Store:
+
+* Previous reasoning states
+* Explanation history
+* Confidence changes
+* Market story evolution
+
+This allows the AI to explain:
+
+"What changed since yesterday?"
+
+---
+
+# Reasoning Rules
+
+The AI must:
+
+## Separate Observation From Interpretation
+
+Observation:
+
+"Price created a lower high."
+
+Interpretation:
+
+"Sellers may be gaining influence."
+
+---
+
+## Show Uncertainty
+
+Never:
+
+"The market will go higher."
+
+Instead:
+
+"Current evidence suggests buyers currently have an advantage."
+
+---
+
+## Avoid Single Factor Decisions
+
+Never reason from:
+
+One candle
+
+One indicator
+
+One pattern
+
+---
+
+# Multi-Timeframe Reasoning
+
+The pipeline should combine:
+
+Higher timeframe context
+
+*
+
+Current timeframe behavior
+
+*
+
+Lower timeframe details
+
+Example:
+
+Daily:
+
+Long-term uptrend
+
+4H:
+
+Correction
+
+15M:
+
+Buyer rejection
+
+Final explanation:
+
+"Short-term weakness is occurring inside a larger bullish structure."
+
+---
+
+# Reasoning Output Format
+
+Internal output:
+
+```json
+{
+"market_state":"",
+"evidence":[],
+"memory_context":[],
+"reasoning":"",
+"confidence":"",
+"scenarios":[],
+"annotations":[]
+}
+```
+
+---
+
+# API Requirements
+
+Create services for:
+
+Analyze market state
+
+Run reasoning pipeline
+
+Generate explanation
+
+Retrieve reasoning history
+
+Compare previous reasoning
+
+Generate replay reasoning
+
+---
+
+# Replay Mode Requirement
+
+The pipeline must support historical replay.
+
+Rules:
+
+* Only available candle data
+* No future knowledge
+* No future memory
+* Deterministic output
+
+---
+
+# Performance Requirements
+
+The system should support:
+
+* Real-time market streams
+* Thousands of simultaneous users
+* Multiple assets
+* Multiple timeframes
+* Historical analysis
+
+---
+
+# Future Expansion
+
+Architecture should support:
+
+* Reinforcement learning
+* Agent-based reasoning
+* Specialized AI agents
+* Sentiment reasoning
+* News reasoning
+* Portfolio reasoning
+* Voice reasoning
+
+---
+
+# Final Goal
+
+The AI Reasoning Pipeline is the intelligence backbone of MLAI.
+
+It transforms:
+
+Raw market movement
+
+into
+
+Evidence
+
+into
+
+Understanding
+
+into
+
+Education.
+
+This pipeline is what allows Market Language AI to behave like a knowledgeable market mentor instead of a simple chart analyzer.
