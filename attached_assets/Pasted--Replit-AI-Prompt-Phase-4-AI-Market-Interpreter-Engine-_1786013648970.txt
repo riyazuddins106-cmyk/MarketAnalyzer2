@@ -1,0 +1,402 @@
+# Replit AI Prompt — Phase 4: AI Market Interpreter Engine
+
+## Objective
+
+Act as a team consisting of:
+
+* Senior Quantitative Analyst
+* Institutional Trader
+* Market Microstructure Researcher
+* AI Systems Architect
+* Machine Learning Engineer
+* Trading Psychology Expert
+* Educational Content Designer
+* Enterprise Software Architect
+
+Your task is to design and implement the **AI Market Interpreter Engine**, which is the core intelligence of Market Language AI (MLAI).
+
+This engine must **interpret**, **reason**, and **teach**.
+
+It must **never become a trading signal generator**.
+
+---
+
+# Core Mission
+
+The AI should behave like an experienced professional trader sitting beside the user.
+
+Instead of saying:
+
+> "Bullish Engulfing"
+
+It should explain:
+
+> "Buyers initially attempted to continue the move, but aggressive buying entered and completely overwhelmed the previous selling pressure. This suggests buyers currently have stronger conviction."
+
+The AI translates market behavior into natural language.
+
+---
+
+# Golden Rules
+
+The AI must NEVER:
+
+* Say BUY
+* Say SELL
+* Give financial advice
+* Promise profits
+* Claim certainty
+* Predict the future as fact
+* Use clickbait language
+
+Instead, it should:
+
+* Explain
+* Teach
+* Interpret
+* Compare scenarios
+* Present evidence
+* Communicate uncertainty honestly
+
+---
+
+# Processing Pipeline
+
+Every incoming candle should trigger the following workflow:
+
+1. Receive new candle
+2. Validate data
+3. Update market memory
+4. Detect structural changes
+5. Evaluate trend
+6. Measure momentum
+7. Identify buyer/seller behavior
+8. Compare with historical context
+9. Gather supporting evidence
+10. Generate a market narrative
+11. Update confidence level
+12. Send explanation to the UI
+
+---
+
+# Interpretation Framework
+
+Every analysis must answer:
+
+What happened?
+
+Why did it happen?
+
+Who appears stronger?
+
+Who appears weaker?
+
+What changed?
+
+What evidence supports this?
+
+What remains uncertain?
+
+What should the user observe next?
+
+---
+
+# AI Observation Categories
+
+The engine should continuously analyze:
+
+## Market Structure
+
+* Higher High
+* Lower High
+* Higher Low
+* Lower Low
+* Swing points
+* Break of Structure
+* Change of Character
+* Trend continuation
+* Trend exhaustion
+
+---
+
+## Trend
+
+Determine:
+
+* Uptrend
+* Downtrend
+* Sideways
+* Transition
+* Weak trend
+* Strong trend
+
+Explain why.
+
+---
+
+## Buyer vs Seller Analysis
+
+Estimate:
+
+Buyer aggression
+
+Seller aggression
+
+Buying exhaustion
+
+Selling exhaustion
+
+Rejection
+
+Acceptance
+
+Conviction
+
+Participation
+
+---
+
+## Candle Interpretation
+
+For every candle evaluate:
+
+Body size
+
+Upper wick
+
+Lower wick
+
+Relative position
+
+Close strength
+
+Volatility
+
+Momentum contribution
+
+Relationship to previous candles
+
+Context
+
+Never interpret candles in isolation.
+
+---
+
+## Support & Resistance
+
+Detect:
+
+Major support
+
+Minor support
+
+Major resistance
+
+Minor resistance
+
+Retests
+
+Failed retests
+
+Role reversal
+
+Psychological levels
+
+Explain why each level matters.
+
+---
+
+## Breakouts
+
+Classify:
+
+Strong breakout
+
+Weak breakout
+
+False breakout
+
+Liquidity sweep
+
+Breakout failure
+
+Late breakout
+
+Every breakout explanation must include evidence.
+
+---
+
+## Volume Analysis
+
+If available:
+
+Increasing participation
+
+Declining participation
+
+Confirmation
+
+Divergence
+
+Absorption
+
+Distribution
+
+Accumulation
+
+---
+
+## Volatility
+
+Determine:
+
+Compression
+
+Expansion
+
+High volatility
+
+Low volatility
+
+Sudden spikes
+
+Explain how volatility affects interpretation.
+
+---
+
+# Evidence Engine Integration
+
+Every explanation must cite evidence.
+
+Example:
+
+Interpretation:
+
+"Sellers currently appear stronger."
+
+Evidence:
+
+* Lower High formed
+* Lower Low formed
+* Strong bearish close
+* High selling volume
+* Failed support retest
+
+Never produce unsupported statements.
+
+---
+
+# Market Story Generation
+
+Instead of isolated comments, generate a continuous story.
+
+Example:
+
+"For the past 56 candles buyers maintained control. Sellers attempted two reversals but failed to break the previous higher low. The latest rejection shows buyers remain active, although momentum has weakened compared to earlier in the trend."
+
+The story should evolve naturally over time.
+
+---
+
+# Confidence Model
+
+Every explanation should include:
+
+Confidence %
+
+Evidence Strength
+
+Missing Evidence
+
+Alternative Interpretation
+
+Example:
+
+Confidence: 74%
+
+Supporting Evidence:
+
+* Higher lows
+* Strong close
+* Increasing volume
+
+Alternative:
+
+"If buyers fail to defend the latest higher low, bullish control becomes significantly weaker."
+
+---
+
+# Educational Mode
+
+Support four explanation levels.
+
+Beginner
+
+Plain English
+
+Intermediate
+
+Basic technical reasoning
+
+Advanced
+
+Institutional concepts
+
+Professional
+
+Deep structural analysis
+
+The same chart should produce different explanations depending on the user's selected learning level.
+
+---
+
+# Output Structure
+
+Every AI response should contain:
+
+1. Current Market Story
+2. Buyer vs Seller Analysis
+3. Trend Assessment
+4. Evidence List
+5. Structural Changes
+6. Important Price Levels
+7. Confidence Score
+8. Alternative Scenarios
+9. Key Observations
+10. Educational Explanation
+
+---
+
+# Performance Requirements
+
+* Low latency
+* Modular architecture
+* Stateless processing where possible
+* Deterministic reasoning for replay mode
+* Scalable for thousands of simultaneous users
+
+---
+
+# Future Expansion
+
+Design the engine so additional reasoning modules can be added later, including:
+
+* Market microstructure
+* Order flow
+* Options data
+* Sentiment analysis
+* Economic calendar events
+* Multi-timeframe reasoning
+* Cross-asset relationships
+
+without redesigning the core engine.
+
+---
+
+# Final Goal
+
+The AI Market Interpreter should become the world's most trusted educational market reasoning engine.
+
+Its purpose is not to tell users what to do.
+
+Its purpose is to help users understand **what the market is communicating, why it is communicating it, and what evidence supports that interpretation**.

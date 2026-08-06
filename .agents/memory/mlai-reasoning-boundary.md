@@ -14,3 +14,9 @@ Enterprise scaling should preserve these boundaries as logical modules first and
 **Why:** Premature microservices would make the evolving market domain harder to change, while explicit ports, versioned events, immutable artifacts, and idempotent workers preserve a safe path to independent scaling later.
 
 **How to apply:** Start with a modular monolith plus workers. Treat API gateway, market data, reasoning, replay, user, admin, notification, and research capabilities as bounded contexts; split them into deployables only when latency, throughput, team ownership, or fault isolation requires it.
+
+Avoid presenting a single confidence percentage as a prediction or signal. Separate observation confidence, evidence sufficiency, interpretation support, alternative interpretations, and future-outcome uncertainty.
+
+**Why:** A system can be highly confident about an observed rejection while remaining uncertain about what price will do next. One percentage would collapse these different claims and encourage signal-like use.
+
+**How to apply:** Store structured confidence dimensions with evidence provenance. If evidence is weak or conflicting, publish an explicit waiting state instead of manufacturing a low or medium directional score.
