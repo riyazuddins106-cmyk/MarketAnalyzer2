@@ -14,12 +14,28 @@ MLAI should begin as a **modular monolith with asynchronous workers**, not as a 
 
 The core rule is:
 
-> Deterministic engines observe, calculate, and cite evidence. The AI explains those facts in natural language. The AI does not invent market facts, calculate indicators, or decide what the chart means without structured evidence.
+> MLAI is a Market Reasoning Engine, not an indicator or signal generator. The system first understands the visible market, then explains that understanding. Deterministic analysis establishes observable facts and evidence; AI expresses the resulting reasoning in clear language.
+
+The canonical reasoning cycle is:
+
+```text
+Observe
+  → Understand
+  → Collect Evidence
+  → Build Market Story
+  → Reason
+  → Explain
+  → Update Memory
+  → Wait for New Evidence
+```
+
+This is a domain invariant, not merely a prompt instruction. A reasoning cycle cannot publish a conclusion until it has passed through the prior stages, and it cannot begin its next cycle until a new completed candle or other explicitly supported market event becomes visible.
 
 This gives the product:
 
 - Reproducible analysis.
 - Exact chart locations for every claim.
+- A market understanding layer that exists before language generation.
 - Protection against future-candle leakage in replay mode.
 - Testable market logic independent of model behavior.
 - Lower latency and lower inference cost.
@@ -28,6 +44,34 @@ This gives the product:
 The first production architecture should contain one API application, one web application, one PostgreSQL database, and one worker process. The modules inside the API and worker should have strict boundaries even though they initially share a deployable unit.
 
 At higher scale, the data ingestion, historical analysis, and AI narration workloads can be separated without rewriting the domain model.
+
+### 1.1 What MLAI is not
+
+MLAI must not be designed, named, tested, or marketed as:
+
+- A technical indicator.
+- A signal generator.
+- A buy/sell alert system.
+- A pattern classifier whose label is the conclusion.
+- A directional prediction bot.
+- A mathematical score that hides its reasoning.
+
+Features such as momentum, volatility, volume, and candle measurements are inputs to understanding. They are not the product output. The product output is a cited explanation of market behavior, including uncertainty and what evidence the system is waiting for next.
+
+### 1.2 Market Reasoning Engine boundary
+
+The **Market Reasoning Engine** is the central domain coordinator. It does not replace the specialized modules; it composes them in a fixed reasoning order:
+
+1. **Observe:** ingest only what is visible and completed.
+2. **Understand:** translate observations into participant behavior and market state.
+3. **Collect Evidence:** gather independent, chart-visible support and data-quality context.
+4. **Build Market Story:** update the temporal narrative and competing interpretations.
+5. **Reason:** compare interpretations, identify stronger/weaker participants, changes, uncertainty, and invalidation conditions.
+6. **Explain:** render the reasoning in plain English with citations and annotations.
+7. **Update Memory:** persist the market-state transition and the learner-visible reasoning.
+8. **Wait for New Evidence:** publish a waiting state until the next eligible event.
+
+The LLM is an optional explanation and conversation component inside step 6. It is not the authority for steps 1–5 or 7–8.
 
 ---
 
@@ -284,7 +328,53 @@ When required, a worker or module can be extracted behind the same contract.
 - `DataQualityReport`
 - `DatasetVersion`
 
-### 5.2 Candle Language Engine
+### 5.2 Market Reasoning Engine
+
+**Responsibility**
+
+Coordinate one complete reasoning cycle and enforce the canonical order:
+
+```text
+Observe → Understand → Collect Evidence → Build Market Story
+→ Reason → Explain → Update Memory → Wait for New Evidence
+```
+
+This is the domain-level orchestrator. It owns the lifecycle and completion rules for a `MarketReasoningCycle`, while the specialized engines own the calculations and state transitions inside each stage.
+
+**A cycle must answer**
+
+- What happened?
+- Why does the evidence support that interpretation?
+- Who currently appears stronger?
+- Who currently appears weaker?
+- What changed from the previous market state?
+- What is the market communicating?
+- Which visible evidence supports each claim?
+- What is the system waiting to see next?
+
+**Cycle states**
+
+- `observing`
+- `understanding`
+- `collecting_evidence`
+- `building_story`
+- `reasoning`
+- `explaining`
+- `memory_updated`
+- `waiting_for_new_evidence`
+- `insufficient_evidence`
+- `failed_with_explicit_reason`
+
+`waiting_for_new_evidence` is a successful, publishable state. It is not a missing-result or error state.
+
+**Must not do**
+
+- Emit a buy/sell signal.
+- Collapse the market into a single numeric score.
+- Continue reasoning after the evidence boundary without a new visible event.
+- Ask the language model to fill a missing reasoning stage.
+
+### 5.3 Candle Language Engine
 
 **Responsibility**
 
@@ -306,7 +396,7 @@ The output should use behavioral vocabulary, never rely on pattern names as the 
 - Chart ranges and candle references.
 - Confidence and data quality.
 
-### 5.3 Market Knowledge Engine
+### 5.4 Market Knowledge Engine
 
 **Responsibility**
 
@@ -319,7 +409,7 @@ Provide explicit, versioned market concepts and teaching rules:
 
 This is not a generic vector-search knowledge base. It should start as reviewed, versioned domain knowledge. Retrieval can be added later for longer educational content.
 
-### 5.4 Market Structure Engine
+### 5.5 Market Structure Engine
 
 **Responsibility**
 
@@ -340,7 +430,7 @@ Levels must be represented as zones with:
 - Confirmation state.
 - Invalidation conditions.
 
-### 5.5 Evidence Engine
+### 5.6 Evidence Engine
 
 **Responsibility**
 
@@ -366,7 +456,17 @@ Observation → Evidence item → Interpretation → Story claim
 
 Each edge carries a contribution, not a false claim of mathematical certainty.
 
-### 5.6 Story Engine
+For every conclusion candidate, the engine must explicitly return:
+
+- Supporting evidence IDs and chart ranges.
+- Contradicting or missing evidence.
+- Evidence quality and freshness.
+- Whether the evidence is sufficient to reason.
+- What additional evidence would increase or reduce support.
+
+An empty or conflicting evidence set is a valid outcome. The engine must return `insufficient_evidence` rather than force an interpretation.
+
+### 5.7 Story Engine
 
 **Responsibility**
 
@@ -382,7 +482,15 @@ Maintain a temporal market narrative:
 
 The story is a state machine with append-only transitions, not a single mutable paragraph. The paragraph is a projection generated from the structured state.
 
-### 5.7 Annotation Engine
+The story must distinguish:
+
+- Observable events.
+- Participant behavior inferred from those events.
+- The current interpretation.
+- Alternative interpretations.
+- The next evidence requirement.
+
+### 5.8 Annotation Engine
 
 **Responsibility**
 
@@ -400,7 +508,7 @@ Every annotation must reference at least one evidence item and one explanation c
 
 The engine outputs chart-coordinate-neutral annotations. The frontend converts them into pixels for the current viewport.
 
-### 5.8 Replay Engine
+### 5.9 Replay Engine
 
 **Responsibility**
 
@@ -413,7 +521,7 @@ The engine outputs chart-coordinate-neutral annotations. The frontend converts t
 
 The replay boundary is part of every analysis request and every cache key.
 
-### 5.9 AI Conversation Engine
+### 5.10 AI Conversation Engine
 
 **Responsibility**
 
@@ -432,7 +540,7 @@ The engine should:
 
 The model should not receive unrestricted raw datasets by default.
 
-### 5.10 Memory Engine
+### 5.11 Memory Engine
 
 The memory engine has two distinct meanings and they must not be conflated.
 
@@ -452,7 +560,16 @@ The memory engine has two distinct meanings and they must not be conflated.
 
 Market memory must never expose future chart information. Learner memory must not be used to create a financial profile or infer sensitive traits without explicit product justification.
 
-### 5.11 Historical Learning Engine
+The memory update occurs after explanation and before the waiting state. It records the completed reasoning cycle, not a prediction of what happens next. Memory should include:
+
+- The visible boundary.
+- Market state before and after the cycle.
+- Evidence used and evidence rejected.
+- Story transition.
+- Reasoning conclusion or explicit insufficient-evidence state.
+- What the system is waiting for next.
+
+### 5.12 Historical Learning Engine
 
 **Responsibility**
 
@@ -466,7 +583,7 @@ Turn historical data into learning experiences and validate system behavior:
 
 This engine should not optimize for directional prediction accuracy as the primary metric. It should optimize for evidence fidelity, temporal correctness, explanation quality, and learner improvement.
 
-### 5.12 Cross-cutting modules
+### 5.13 Cross-cutting modules
 
 These are required even though they are not in the original list:
 
@@ -493,8 +610,10 @@ These are required even though they are not in the original list:
    - `visibleThroughCandleId`.
    - Analysis engine version.
    - Request correlation ID.
-6. Responses expose provenance and uncertainty.
+6. A reasoning-cycle response exposes its current stage, provenance, uncertainty, and next evidence requirement.
 7. No module may silently fall back from missing data to an invented value.
+8. No module may expose an indicator-like score or signal as the product conclusion.
+9. A cycle may conclude with `insufficient_evidence` or `waiting_for_new_evidence`; it must never force a conclusion.
 
 ### 6.2 Synchronous request path
 
@@ -539,9 +658,13 @@ Conceptual events include:
 - `DatasetValidated`
 - `CandleVisibilityAdvanced`
 - `CandleBehaviorAnalyzed`
+- `MarketReasoningCycleStarted`
+- `MarketReasoningStageCompleted`
 - `MarketStructureUpdated`
 - `EvidenceBundleCreated`
 - `MarketStoryAdvanced`
+- `MarketReasoningConcluded`
+- `WaitingForNewEvidencePublished`
 - `AnnotationsPublished`
 - `NarrationRequested`
 - `NarrationPublished`
@@ -550,7 +673,50 @@ Conceptual events include:
 
 Events should include IDs and versions, not large embedded payloads. Consumers load the immutable artifact by ID.
 
-### 6.5 Analysis artifact contract
+### 6.5 Market reasoning cycle contract
+
+The primary cross-module contract is a `MarketReasoningCycle`. It is an immutable record of one pass through the reasoning pipeline:
+
+```text
+MarketReasoningCycle
+├── observation
+├── understanding
+├── evidenceBundle
+├── marketStory
+├── reasoning
+├── explanation
+├── memoryUpdate
+└── waitingState
+```
+
+Each stage must carry:
+
+- Stage status and completion timestamp.
+- Input artifact IDs.
+- Output artifact IDs.
+- Dataset version and visible candle boundary.
+- Engine/configuration version.
+- Data-quality warnings.
+
+The `reasoning` stage must explicitly contain:
+
+- What happened.
+- Why it happened, expressed as an evidence-backed interpretation.
+- Who appears stronger and the supporting evidence.
+- Who appears weaker and the supporting evidence.
+- What changed from the previous state.
+- What the market is communicating.
+- Supporting and contradicting evidence.
+- What the system is waiting to see next.
+- Whether evidence is sufficient.
+
+If evidence is insufficient, `reasoning` must contain a non-forced state such as:
+
+> “There is not enough visible evidence to support a stronger interpretation yet. The system is waiting for confirmation from [specific chart-visible event or reaction].”
+
+The `waitingState` is required for every successful cycle. It records the event class that can start the next cycle, without predicting that event will occur.
+
+### 6.6 Analysis artifact contract
 
 The central cross-module object should be an immutable `AnalysisSnapshot`:
 
@@ -564,26 +730,29 @@ The central cross-module object should be an immutable `AnalysisSnapshot`:
 - Optional narration ID.
 - Created timestamp.
 - Data quality status.
+- Reasoning-cycle ID.
+- Current waiting-for-evidence state.
 
 The UI can safely render this snapshot because all visible claims have references.
 
 ---
 
-## 7. End-to-end candle reasoning flow
+## 7. End-to-end Market Reasoning Cycle
 
-For each visible completed candle:
+For each newly visible completed candle or explicitly supported market event:
 
-1. **Replay Engine** advances the visibility boundary.
-2. **Data Engine** returns only candles at or before that boundary.
-3. **Candle Language Engine** emits behavioral observations.
-4. **Market Structure Engine** updates structure candidates and confirmed zones.
-5. **Evidence Engine** combines current and recent evidence.
-6. **Story Engine** emits a new story transition or preserves the current state.
-7. **Annotation Engine** creates or updates anchored teaching objects.
-8. **Change Detector** decides whether narration is needed.
-9. **AI Conversation Engine** optionally turns the structured state into plain English.
-10. **Analysis Snapshot** is stored and published to the client.
-11. **Learning Engine** records what the user saw and, when applicable, how they responded.
+1. **Observe:** Replay and Data Engines establish the newly visible boundary and return only eligible completed data.
+2. **Understand:** Candle Language, Market Knowledge, and Market Structure Engines translate observations into participant behavior and market state.
+3. **Collect Evidence:** Evidence Engine gathers independent chart-visible support, contradiction, freshness, and quality.
+4. **Build Market Story:** Story Engine updates the temporal narrative, including current and alternative interpretations.
+5. **Reason:** Market Reasoning Engine compares interpretations and determines what happened, why, stronger/weaker participants, what changed, what the market is communicating, and what evidence is still needed.
+6. **Explain:** Annotation Engine anchors the explanation to the chart; deterministic templates or the AI Conversation Engine render it in plain English.
+7. **Update Memory:** Memory Engine persists the completed market-state transition and learner-visible reasoning.
+8. **Wait for New Evidence:** The cycle publishes its waiting state and stops. No new conclusion is generated until a new eligible event becomes visible.
+
+If the Evidence Engine reports insufficient evidence, the cycle still completes stages 5–8, but the reasoning result is explicitly non-conclusive. The system explains the observable facts, states what remains unknown, and identifies the evidence required for confirmation.
+
+The `Explain` stage may be skipped for an unchanged routine state only as a presentation optimization; the structured reasoning cycle, memory update, and waiting state must still be produced. A user request always triggers an explanation grounded in the current cycle.
 
 The sequence must be deterministic for a fixed:
 
@@ -687,32 +856,39 @@ Jobs must be idempotent. A retry must not create duplicate analysis artifacts or
 
 ---
 
-## 10. AI reasoning architecture
+## 10. AI narration architecture
 
-### 10.1 Grounded generation pipeline
+The language model is an optional **narration and conversation adapter**. It is not the Market Reasoning Engine. It may not observe raw candles and independently decide what the market means.
+
+### 10.1 Grounded narration pipeline
 
 ```text
-Structured observations
-  → evidence bundle
-  → interpretation candidates
-  → safety and uncertainty checks
-  → narration plan
+Completed reasoning cycle
+  → explanation plan
   → model response in strict schema
-  → schema/provenance validation
+  → schema/provenance/safety validation
   → rendered explanation
 ```
 
 The model receives:
 
-- Current market phase.
-- Recent story transitions.
-- Selected evidence items.
-- Chart range references.
-- Data quality warnings.
-- User question.
-- Voice and educational constraints.
+- The completed reasoning cycle.
+- Current and relevant prior story transitions.
+- Selected evidence items and chart range references.
+- Data quality warnings and known missing inputs.
+- The user's question, if any.
+- Voice, educational, and safety constraints.
 
 The model does not receive future candles in replay mode.
+
+The model must not be asked to:
+
+- Detect a signal.
+- Produce a buy/sell recommendation.
+- Calculate an indicator as the conclusion.
+- Choose a market direction without an evidence bundle.
+- Fill in an absent reasoning stage.
+- Convert insufficient evidence into a confident opinion.
 
 ### 10.2 Model output requirements
 
@@ -726,6 +902,8 @@ The model output should be structured, not free text only:
 - Evidence IDs.
 - Annotation IDs or chart ranges.
 - Educational follow-up.
+- What the system is waiting to see next.
+- Explicit `insufficientEvidence` state when applicable.
 
 The backend rejects or repairs output that:
 
@@ -734,6 +912,8 @@ The backend rejects or repairs output that:
 - Claims data that is not available.
 - Uses future candles.
 - Gives unsupported trade instructions.
+- Presents a signal, alert, or directional guarantee as the conclusion.
+- Omits the reason, evidence, or next-evidence requirement.
 
 ### 10.3 Provider strategy
 
@@ -987,6 +1167,8 @@ Each milestone ends with a review and approval gate. Work on the next milestone 
 - Candle, dataset, instrument, timeframe, and market-profile contracts.
 - Data quality rules.
 - Dataset provenance model.
+- `MarketReasoningCycle` contract and stage state machine.
+- Definitions for observation, understanding, evidence, story, reasoning, explanation, memory, and waiting state.
 - Initial OpenAPI contract.
 
 **Acceptance criteria**
@@ -994,6 +1176,8 @@ Each milestone ends with a review and approval gate. Work on the next milestone 
 - A malformed dataset is rejected with actionable reasons.
 - Candle windows are reproducible and ordered.
 - Visibility boundaries are part of the contract.
+- A reasoning cycle cannot skip stages or publish a conclusion without an evidence result.
+- `insufficient_evidence` and `waiting_for_new_evidence` are valid domain states.
 
 ### Milestone 2 — Historical data foundation
 
@@ -1040,11 +1224,14 @@ Each milestone ends with a review and approval gate. Work on the next milestone 
 - Confirmed and potential zones.
 - Rejection, breakout, failed-breakout, and consolidation evidence.
 - Evidence graph and quality scoring.
+- Evidence sufficiency and contradiction assessment.
 
 **Acceptance criteria**
 
 - Weak swing points do not automatically become levels.
 - Every interpretation identifies supporting evidence and uncertainty.
+- The engine explicitly identifies what happened, why it is believed, and what evidence is still missing.
+- Insufficient or contradictory evidence produces a non-forced waiting state.
 - The same fixture produces stable results across runs.
 
 ### Milestone 5 — Story and annotation engine
@@ -1057,11 +1244,14 @@ Each milestone ends with a review and approval gate. Work on the next milestone 
 - Append-only story transitions.
 - Chart-coordinate-neutral annotations.
 - Evidence-to-annotation links.
+- Stronger/weaker participant assessment with supporting evidence.
+- Explicit next-evidence requirements.
 
 **Acceptance criteria**
 
 - A user can inspect why a story changed.
 - Every annotation has evidence provenance.
+- The story separates observable events from interpretation and states what it is waiting to see.
 - Story transitions are reproducible from the visible candle sequence.
 
 ### Milestone 6 — Replay mode
@@ -1075,10 +1265,13 @@ Each milestone ends with a review and approval gate. Work on the next milestone 
 - Visibility-bound analysis.
 - Replay timeline and saved sessions.
 - Leakage test fixtures.
+- Full Market Reasoning Cycle execution at each reveal boundary.
 
 **Acceptance criteria**
 
 - Future candles cannot affect current analysis, cache keys, annotations, or prompts.
+- Each reveal follows Observe → Understand → Collect Evidence → Build Market Story → Reason → Explain → Update Memory → Wait for New Evidence.
+- The system stops after waiting and does not create a new conclusion without a new eligible event.
 - Replaying the same dataset with the same settings reproduces the same deterministic state.
 - The UI makes the visible boundary unmistakable.
 
@@ -1094,10 +1287,13 @@ Each milestone ends with a review and approval gate. Work on the next milestone 
 - Annotation focus.
 - Replay controls.
 - Data quality and uncertainty states.
+- Market communication view showing what happened, why, stronger/weaker participants, what changed, and what is awaited next.
 
 **Acceptance criteria**
 
 - A new user can load a dataset, start replay, advance candles, and understand why the story changed.
+- Every displayed conclusion can be traced to visible chart evidence.
+- The workspace clearly distinguishes a reasoned interpretation from an explicit insufficient-evidence state.
 - All primary interactions use real persisted data.
 - No trust-critical flow is mocked.
 
@@ -1111,13 +1307,16 @@ Each milestone ends with a review and approval gate. Work on the next milestone 
 - Structured narration schema.
 - Grounded prompt builder.
 - Evidence/provenance validator.
+- Narration adapter that consumes completed reasoning cycles only.
 - Conversation UI.
 - Safety policy and refusal behavior.
 
 **Acceptance criteria**
 
 - Narration cites valid evidence.
+- Narration explains what happened, why, stronger/weaker participants, what changed, market communication, and what to watch for next.
 - Unsupported claims are rejected or repaired.
+- The model cannot create a signal, replace a reasoning stage, or turn insufficient evidence into certainty.
 - The system works in deterministic-only mode when AI is unavailable.
 - Replay prompts contain no future information.
 
@@ -1151,11 +1350,13 @@ Each milestone ends with a review and approval gate. Work on the next milestone 
 - Explanation consistency metrics.
 - Model regression suite.
 - Human review workflow.
+- Full reasoning-cycle conformance tests.
 
 **Acceptance criteria**
 
 - A new engine version can be compared against the previous version.
 - Regressions in evidence fidelity are detected before release.
+- Tests detect skipped stages, unsupported conclusions, signal-like outputs, and missing waiting states.
 - Quality dashboards distinguish market logic failures from language-model failures.
 
 ### Milestone 11 — Scale and market expansion
