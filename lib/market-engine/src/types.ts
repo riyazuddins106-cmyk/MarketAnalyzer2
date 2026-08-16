@@ -4,7 +4,30 @@ export interface CandleRow {
   [key: string]: unknown;
 }
 
+export type DatasetSourceFormat = "csv" | "json" | "rows";
+
+export type RawRecordStatus = "accepted" | "rejected";
+
+export interface DatasetMetadata {
+  datasetId: string;
+  datasetVersion: string;
+  instrument: string;
+  timeframe: string;
+  source: string;
+  sourceFormat: DatasetSourceFormat;
+  normalizationVersion: string;
+  rawRecordCount: number;
+}
+
+export interface RawCandleRecord {
+  sourceRow: number;
+  payload: CandleRow;
+  status: RawRecordStatus;
+  issues: QualityIssue[];
+}
+
 export interface NormalizedCandle {
+  sourceRow: number;
   instrument: string;
   timeframe: string;
   timestamp: string;
@@ -18,12 +41,16 @@ export interface NormalizedCandle {
 }
 
 export interface QualityIssue {
+  severity: "error" | "warning";
   code:
     | "missing_field"
     | "invalid_number"
     | "invalid_timestamp"
     | "invalid_ohlc"
-    | "duplicate_timestamp";
+    | "duplicate_timestamp"
+    | "out_of_order"
+    | "invalid_volume"
+    | "time_gap";
   row: number;
   field?: string;
   message: string;
@@ -44,11 +71,18 @@ export interface DatasetQuality {
   invalidOhlcCount: number;
   duplicateTimestampCount: number;
   outOfOrderCount: number;
+  errorCount: number;
+  warningCount: number;
   timeGaps: TimeGap[];
+  errors: QualityIssue[];
+  warnings: QualityIssue[];
+  /** @deprecated Use errors and warnings for severity-specific handling. */
   issues: QualityIssue[];
 }
 
 export interface NormalizationResult {
+  metadata: DatasetMetadata;
+  rawRecords: RawCandleRecord[];
   candles: NormalizedCandle[];
   quality: DatasetQuality;
 }
@@ -57,6 +91,11 @@ export interface NormalizeOptions {
   instrument: string;
   timeframe: string;
   source?: string;
+  datasetId?: string;
+  datasetVersion?: string;
+  sourceFormat?: DatasetSourceFormat;
+  sourceRowOffset?: number;
+  normalizationVersion?: string;
 }
 
 export interface CandleAnatomy {
@@ -138,6 +177,7 @@ export interface Scenario {
 
 export interface MarketAnalysis {
   asOf: string;
+  dataset: DatasetMetadata;
   input: {
     instrument: string;
     timeframe: string;

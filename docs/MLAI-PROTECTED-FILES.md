@@ -21,11 +21,15 @@ control, review, or testing.
 
 | File | SHA-256 |
 |---|---|
-| `lib/market-engine/src/types.ts` | `20e9983d8c90bc8f24e0d47dab63ea9d59f2a6c6208fa28bba4f5778750486ca` |
-| `lib/market-engine/src/normalize.ts` | `d532dbc28cef12e75eceb2090ec52a7af625ceffcc1593ba2eede40afdbbe1a9` |
-| `lib/market-engine/src/analyze.ts` | `33e347b999839a0c1518a00d66137aa5a59775dced34f476e0f5cd30a521c1a5` |
-| `lib/market-engine/src/index.ts` | `d9f1aa773ce9a74880f4b97fce30af1d162847f37e8c05ea20986fcf83eddbe0` |
-| `scripts/src/analyze.ts` | `ded12a31bd601bcee302e4bd7d3074959b762cb056e6b56908224604831f0557` |
+| `lib/market-engine/src/types.ts` | `30a348a7ec2df040f583e63adecaa653651c8b13b5fb1c7729059317628df15a` |
+| `lib/market-engine/src/normalize.ts` | `322e73326a4a8d6855311319aeb8fd32a5fb5b4d03e9ef71669f9843fc4402e8` |
+| `lib/market-engine/src/analyze.ts` | `c93a83f7a3994cb012b741cfa38427c1c6e5f117b1d7e6dc4e837426c201baf1` |
+| `lib/market-engine/src/index.ts` | `7110784dcbb8bc536e6ef05c2c2f38868e0b3e4876231dfe638224c153c95d6f` |
+| `scripts/src/analyze.ts` | `b5a55858dc05d0b3f9d8e1dcf86b5be17fdc02492915cd170043ce081ee000a3` |
+| `scripts/src/market-engine.test.ts` | `da3cca788f61df960b63c54786e166a36029802729ade082e9223fbd634bc26c` |
+| `scripts/package.json` | `1ac365966f91d4739c919919cb8986cd3bff57efa7b0fd429aa99f3cb181da16` |
+| `replit.md` | `58fef664559f7a37fecdcd32df0ce673504880aa69c05da3fcef3c71e3d041be` |
+| `docs/MLAI-DATA-CONTRACT.md` | `68ced3a56023a4ccad2e92e5b998fdf9d6b11eda6b79a37136329b729955266e` |
 | `docs/MLAI-ARCHITECTURE.md` | `16202b934783435615e7c04d564d1dd82ae4624e2d7b470782119af2a3f43585` |
 | `lib/api-spec/openapi.yaml` | `f9ab7c42c1b0ac5c937994943e70ffce6bb728d22ccb7fe7af963939264a82be` |
 | `lib/db/src/schema/index.ts` | `459c09e0be1c1e28c794ee70e838f55d0c3d225fa6614fe2d4182a86fbf5e115` |

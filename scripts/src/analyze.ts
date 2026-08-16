@@ -4,6 +4,7 @@ import {
   analyzeMarket,
   normalizeCandles,
   type CandleRow,
+  type DatasetSourceFormat,
 } from "@workspace/market-engine";
 
 interface CliOptions {
@@ -11,15 +12,21 @@ interface CliOptions {
   instrument: string;
   timeframe: string;
   source: string;
+  datasetId: string;
+  datasetVersion: string;
 }
 
 function usage(): string {
   return [
     "Usage:",
-    "  pnpm --filter @workspace/scripts run analyze -- --file <candles.csv|candles.json> --instrument <name> --timeframe <interval>",
+    "  pnpm --filter @workspace/scripts run analyze -- --file <candles.csv|candles.json> --instrument <name> --timeframe <interval> [--dataset-id <id>] [--dataset-version <version>]",
     "",
     "Input columns:",
     "  timestamp,open,high,low,close,volume,volume_type",
+    "",
+    "Dataset metadata defaults:",
+    "  dataset-id: adhoc-input",
+    "  dataset-version: unversioned",
     "",
     "Example:",
     "  pnpm --filter @workspace/scripts run analyze -- --file data/xauusd.csv --instrument XAUUSD --timeframe 1h",
@@ -57,6 +64,8 @@ function parseArgs(args: string[]): CliOptions {
     instrument,
     timeframe,
     source: values.get("source") ?? "cli-input",
+    datasetId: values.get("dataset-id") ?? "adhoc-input",
+    datasetVersion: values.get("dataset-version") ?? "unversioned",
   };
 }
 
@@ -115,6 +124,10 @@ function parseInput(text: string, file: string): CandleRow[] {
   return parseCsv(text);
 }
 
+function sourceFormatFor(file: string): DatasetSourceFormat {
+  return file.toLowerCase().endsWith(".json") ? "json" : "csv";
+}
+
 async function main(): Promise<void> {
   const args = process.argv.slice(2);
   if (args.includes("--help") || args.includes("-h")) {
@@ -125,12 +138,17 @@ async function main(): Promise<void> {
   const filePath = resolve(options.file);
   const text = await readFile(filePath, "utf8");
   const rows = parseInput(text, filePath);
+  const sourceFormat = sourceFormatFor(filePath);
   const normalized = normalizeCandles(rows, {
     instrument: options.instrument,
     timeframe: options.timeframe,
     source: options.source,
+    datasetId: options.datasetId,
+    datasetVersion: options.datasetVersion,
+    sourceFormat,
+    sourceRowOffset: sourceFormat === "csv" ? 2 : 1,
   });
-  const analysis = analyzeMarket(normalized.candles, normalized.quality);
+  const analysis = analyzeMarket(normalized.candles, normalized.quality, normalized.metadata);
   process.stdout.write(`${JSON.stringify(analysis, null, 2)}\n`);
 }
 

@@ -106,9 +106,22 @@ assets are reference material, not executable research artifacts.
 The project is sufficiently inventoried to begin the next step. The current
 analysis engine and CLI are identified as the protected active foundation.
 
-The next implementation step is the canonical data foundation:
+## Canonical data-foundation result
 
-1. Separate raw input records from normalized candles.
-2. Add explicit dataset metadata and version identity.
-3. Make quality outcomes distinguish accepted, rejected, and warning states.
-4. Preserve enough provenance for reproducible analysis.
+The first data-foundation slice is now implemented and documented in
+`docs/MLAI-DATA-CONTRACT.md`:
+
+1. Raw input records are separate from normalized candles.
+2. Dataset metadata includes identity, version, source, format, and normalizer
+   version.
+3. Quality outcomes distinguish accepted, rejected, error, and warning states.
+4. Normalized candles retain source-row provenance.
+5. Deterministic contract tests cover preserved raw payloads, duplicate
+   timestamps, out-of-order records, invalid volume, and malformed OHLC rows.
+
+The remaining data-foundation work is persistent storage, raw-payload content
+hashes, retrieval timestamps, timezone/source-calendar metadata, and immutable
+dataset snapshots.
+
+The next roadmap step is the full causality contract and visibility-boundary
+registry.

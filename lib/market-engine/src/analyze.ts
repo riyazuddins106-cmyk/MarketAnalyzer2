@@ -1,6 +1,7 @@
 import type {
   CandleAnatomy,
   Evidence,
+  DatasetMetadata,
   MarketAnalysis,
   MarketState,
   NormalizedCandle,
@@ -160,7 +161,11 @@ function locationFor(close: number, recentLow: number, recentHigh: number): Mark
   return "middle_of_range";
 }
 
-export function analyzeMarket(candles: NormalizedCandle[], quality: DatasetQuality): MarketAnalysis {
+export function analyzeMarket(
+  candles: NormalizedCandle[],
+  quality: DatasetQuality,
+  metadata: DatasetMetadata,
+): MarketAnalysis {
   if (candles.length === 0) {
     throw new Error("At least one valid candle is required for analysis.");
   }
@@ -263,6 +268,7 @@ export function analyzeMarket(candles: NormalizedCandle[], quality: DatasetQuali
 
   return {
     asOf: latest.timestamp,
+    dataset: metadata,
     input: {
       instrument: latest.instrument,
       timeframe: latest.timeframe,
