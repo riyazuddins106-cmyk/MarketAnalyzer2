@@ -1,15 +1,17 @@
-# [Project name]
+# Market Language AI
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+Deterministic, evidence-traceable market-state analysis from completed OHLCV candles. The current interface is command-line output only; no UI or live-data connector is required.
 
 ## Run & Operate
 
 - `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
+- `pnpm --silent --filter @workspace/scripts run analyze -- --file <candles.csv|candles.json> --instrument <name> --timeframe <interval>` — normalize and analyze completed candles, printing structured JSON only
 - `pnpm run typecheck` — full typecheck across all packages
 - `pnpm run build` — typecheck + build all packages
 - `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
 - `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string
+- The CLI does not require a database or external service.
+- The API scaffold still requires `DATABASE_URL` when database-backed routes are added.
 
 ## Stack
 
@@ -22,23 +24,30 @@ _Replace the heading above with the project's name, and this line with one sente
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `lib/market-engine/src/normalize.ts` — canonical candle normalization and quality checks
+- `lib/market-engine/src/analyze.ts` — causal candle anatomy, sequence, structure, context, and scenario analysis
+- `scripts/src/analyze.ts` — terminal entry point for CSV/JSON input
+- `attached_assets/Pasted-MLAI-Market-Language-Brain-Detailed-Architecture-and-De_1786885441152.txt` — roadmap and scientific constraints
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- Deterministic OHLCV evidence is the authority; language output is derived from measured state.
+- The CLI sorts accepted candles chronologically but reports source-order violations rather than hiding them.
+- Future outcomes are represented as targets only and are explicitly excluded from current analysis.
+- Historical probabilities remain unavailable until a validated experience dataset is supplied.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+The first vertical slice validates and explains completed OHLCV candle data. It reports data quality, causal feature availability, market-state evidence, competing scenarios, and the missing historical evidence needed for calibration.
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- The user wants command output only; do not add a UI unless explicitly requested.
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- This slice does not make trading recommendations, infer hidden orders, or estimate probabilities without historical experience data.
+- Run the CLI with `--file`, `--instrument`, and `--timeframe`; supported timeframe gap checks use formats such as `5m`, `1h`, and `1d`.
 
 ## Pointers
 
