@@ -2,6 +2,7 @@ import type {
   CandleAnatomy,
   Evidence,
   DatasetMetadata,
+  AnalyzeOptions,
   MarketAnalysis,
   MarketState,
   NormalizedCandle,
@@ -161,14 +162,56 @@ function locationFor(close: number, recentLow: number, recentHigh: number): Mark
   return "middle_of_range";
 }
 
+function visibleCandlesFor(
+  candles: NormalizedCandle[],
+  options: AnalyzeOptions | undefined,
+): { candles: NormalizedCandle[]; visibility: MarketAnalysis["visibility"] } {
+  if (candles.length === 0) {
+    throw new Error("At least one valid candle is required for analysis.");
+  }
+
+  if (options?.visibleThrough === undefined) {
+    return {
+      candles,
+      visibility: {
+        mode: "full_dataset",
+        visibleThrough: candles[candles.length - 1].timestamp,
+        visibleCandleCount: candles.length,
+        excludedCandleCount: 0,
+      },
+    };
+  }
+
+  const boundaryMs = Date.parse(options.visibleThrough);
+  if (Number.isNaN(boundaryMs)) {
+    throw new Error("visibleThrough must be an ISO date/time value.");
+  }
+
+  const visibleCandles = candles.filter((candle) => Date.parse(candle.timestamp) <= boundaryMs);
+  if (visibleCandles.length === 0) {
+    throw new Error("The visibility boundary does not include any completed candles.");
+  }
+
+  return {
+    candles: visibleCandles,
+    visibility: {
+      mode: "bounded",
+      visibleThrough: visibleCandles[visibleCandles.length - 1].timestamp,
+      visibleCandleCount: visibleCandles.length,
+      excludedCandleCount: candles.length - visibleCandles.length,
+    },
+  };
+}
+
 export function analyzeMarket(
   candles: NormalizedCandle[],
   quality: DatasetQuality,
   metadata: DatasetMetadata,
+  options?: AnalyzeOptions,
 ): MarketAnalysis {
-  if (candles.length === 0) {
-    throw new Error("At least one valid candle is required for analysis.");
-  }
+  const visible = visibleCandlesFor(candles, options);
+  candles = visible.candles;
+  const visibility = visible.visibility;
 
   const lastIndex = candles.length - 1;
   const latest = candles[lastIndex];
@@ -259,9 +302,14 @@ export function analyzeMarket(
   }
 
   const scenarios = createScenarios(state, evidence);
+  const visibilityExplanation =
+    visibility.mode === "bounded"
+      ? `The analysis used only completed candles through ${visibility.visibleThrough}; ${visibility.excludedCandleCount} later candle(s) were excluded from the current state.`
+      : "The analysis used all supplied completed candles through the latest candle.";
   const explanation = [
     `As of ${latest.timestamp}, ${latest.instrument} on ${latest.timeframe} shows a ${state.sequence.replaceAll("_", " ")} sequence inside a ${state.structure.replaceAll("_", " ")} context.`,
     `Price is ${state.location.replaceAll("_", " ")} and momentum is ${state.momentum}.`,
+    visibilityExplanation,
     `This is an observation of completed OHLCV candles, not a claim about hidden orders or trader intent.`,
     `Historical probability is not estimated because no historical experience dataset was supplied; scenarios remain competing interpretations with uncalibrated confidence.`,
   ].join(" ");
@@ -269,6 +317,7 @@ export function analyzeMarket(
   return {
     asOf: latest.timestamp,
     dataset: metadata,
+    visibility,
     input: {
       instrument: latest.instrument,
       timeframe: latest.timeframe,
@@ -290,24 +339,32 @@ export function analyzeMarket(
         classification: "causal_input",
         firstAvailable: "current candle close",
         candlesUsed: "current candle only",
+        visibleThrough: visibility.visibleThrough,
+        futureValuesUsed: false,
       },
       {
         feature: "ATR",
         classification: "causal_input",
         firstAvailable: "current candle close",
         candlesUsed: `current and prior ${ATR_PERIOD - 1} candles when available`,
+        visibleThrough: visibility.visibleThrough,
+        futureValuesUsed: false,
       },
       {
         feature: "recent range and location",
         classification: "causal_input",
         firstAvailable: "current candle close",
         candlesUsed: `current and prior ${LOOKBACK} candles when available`,
+        visibleThrough: visibility.visibleThrough,
+        futureValuesUsed: false,
       },
       {
         feature: "future outcomes",
         classification: "future_target",
         firstAvailable: "after a predeclared evaluation horizon completes",
         candlesUsed: "not used in this analysis",
+        visibleThrough: visibility.visibleThrough,
+        futureValuesUsed: false,
       },
     ],
     explanation,

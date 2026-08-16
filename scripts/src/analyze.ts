@@ -14,6 +14,7 @@ interface CliOptions {
   source: string;
   datasetId: string;
   datasetVersion: string;
+  visibleThrough?: string;
 }
 
 function usage(): string {
@@ -27,6 +28,7 @@ function usage(): string {
     "Dataset metadata defaults:",
     "  dataset-id: adhoc-input",
     "  dataset-version: unversioned",
+    "  visible-through: optional ISO timestamp for replay-bounded analysis",
     "",
     "Example:",
     "  pnpm --filter @workspace/scripts run analyze -- --file data/xauusd.csv --instrument XAUUSD --timeframe 1h",
@@ -66,6 +68,7 @@ function parseArgs(args: string[]): CliOptions {
     source: values.get("source") ?? "cli-input",
     datasetId: values.get("dataset-id") ?? "adhoc-input",
     datasetVersion: values.get("dataset-version") ?? "unversioned",
+    visibleThrough: values.get("visible-through"),
   };
 }
 
@@ -148,7 +151,12 @@ async function main(): Promise<void> {
     sourceFormat,
     sourceRowOffset: sourceFormat === "csv" ? 2 : 1,
   });
-  const analysis = analyzeMarket(normalized.candles, normalized.quality, normalized.metadata);
+  const analysis = analyzeMarket(
+    normalized.candles,
+    normalized.quality,
+    normalized.metadata,
+    { visibleThrough: options.visibleThrough },
+  );
   process.stdout.write(`${JSON.stringify(analysis, null, 2)}\n`);
 }
 

@@ -98,6 +98,33 @@ export interface NormalizeOptions {
   normalizationVersion?: string;
 }
 
+export type AnalysisVisibilityMode = "full_dataset" | "bounded";
+
+export interface AnalysisVisibility {
+  mode: AnalysisVisibilityMode;
+  visibleThrough: string;
+  visibleCandleCount: number;
+  excludedCandleCount: number;
+}
+
+export interface AnalyzeOptions {
+  visibleThrough?: string;
+}
+
+export type CausalityClassification =
+  | "causal_input"
+  | "delayed_causal_input"
+  | "future_target";
+
+export interface CausalityRecord {
+  feature: string;
+  classification: CausalityClassification;
+  firstAvailable: string;
+  candlesUsed: string;
+  visibleThrough: string;
+  futureValuesUsed: boolean;
+}
+
 export interface CandleAnatomy {
   timestamp: string;
   direction: "up" | "down" | "neutral";
@@ -178,6 +205,7 @@ export interface Scenario {
 export interface MarketAnalysis {
   asOf: string;
   dataset: DatasetMetadata;
+  visibility: AnalysisVisibility;
   input: {
     instrument: string;
     timeframe: string;
@@ -193,11 +221,6 @@ export interface MarketAnalysis {
     reason: string;
   };
   scenarios: Scenario[];
-  causality: {
-    feature: string;
-    classification: "causal_input" | "delayed_causal_input" | "future_target";
-    firstAvailable: string;
-    candlesUsed: string;
-  }[];
+  causality: CausalityRecord[];
   explanation: string;
 }

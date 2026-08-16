@@ -5,7 +5,7 @@ Deterministic, evidence-traceable market-state analysis from completed OHLCV can
 ## Run & Operate
 
 - `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
-- `pnpm --silent --filter @workspace/scripts run analyze -- --file <candles.csv|candles.json> --instrument <name> --timeframe <interval> [--dataset-id <id>] [--dataset-version <version>]` — normalize and analyze completed candles, printing structured JSON with dataset provenance
+- `pnpm --silent --filter @workspace/scripts run analyze -- --file <candles.csv|candles.json> --instrument <name> --timeframe <interval> [--dataset-id <id>] [--dataset-version <version>] [--visible-through <ISO timestamp>]` — normalize and analyze completed candles, printing structured JSON with dataset provenance and optional replay boundary
 - `pnpm --filter @workspace/scripts run test` — deterministic market-engine contract tests
 - `pnpm run typecheck` — full typecheck across all packages
 - `pnpm run build` — typecheck + build all packages

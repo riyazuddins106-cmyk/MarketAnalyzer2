@@ -112,3 +112,69 @@ test("normalization rejects malformed OHLC records without losing their raw payl
   assert.equal(result.quality.errors.some((issue) => issue.code === "missing_field"), true);
   assert.equal(result.quality.errors.some((issue) => issue.code === "invalid_ohlc"), true);
 });
+
+test("analysis enforces a completed-candle visibility boundary", () => {
+  const rows: CandleRow[] = Array.from({ length: 6 }, (_, index) => {
+    const hour = String(index).padStart(2, "0");
+    const open = 100 + index;
+    return {
+      timestamp: `2026-01-01T${hour}:00:00Z`,
+      open,
+      high: open + 2,
+      low: open - 1,
+      close: open + 1,
+      volume: 10 + index,
+    };
+  });
+  const normalized = normalizeCandles(rows, {
+    datasetId: "replay-fixture",
+    datasetVersion: "v1",
+    instrument: "XAUUSD",
+    timeframe: "1h",
+    sourceFormat: "json",
+    sourceRowOffset: 1,
+  });
+
+  const analysis = analyzeMarket(
+    normalized.candles,
+    normalized.quality,
+    normalized.metadata,
+    { visibleThrough: "2026-01-01T02:00:00Z" },
+  );
+
+  assert.equal(analysis.visibility.mode, "bounded");
+  assert.equal(analysis.visibility.visibleThrough, "2026-01-01T02:00:00.000Z");
+  assert.equal(analysis.visibility.visibleCandleCount, 3);
+  assert.equal(analysis.visibility.excludedCandleCount, 3);
+  assert.equal(analysis.input.candleCount, 3);
+  assert.equal(analysis.input.lastCandle, "2026-01-01T02:00:00.000Z");
+  assert.equal(analysis.causality.every((record) => record.futureValuesUsed === false), true);
+  assert.equal(
+    analysis.evidence.every(
+      (item) => Date.parse(item.timestamp) <= Date.parse(analysis.visibility.visibleThrough),
+    ),
+    true,
+  );
+  assert.match(analysis.explanation, /3 later candle\(s\) were excluded/);
+
+  assert.throws(
+    () =>
+      analyzeMarket(
+        normalized.candles,
+        normalized.quality,
+        normalized.metadata,
+        { visibleThrough: "not-a-date" },
+      ),
+    /visibleThrough must be an ISO date\/time value/,
+  );
+  assert.throws(
+    () =>
+      analyzeMarket(
+        normalized.candles,
+        normalized.quality,
+        normalized.metadata,
+        { visibleThrough: "2025-12-31T23:00:00Z" },
+      ),
+    /does not include any completed candles/,
+  );
+});

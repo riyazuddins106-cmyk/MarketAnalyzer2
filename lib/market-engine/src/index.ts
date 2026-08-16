@@ -1,8 +1,13 @@
 export { analyzeMarket } from "./analyze";
 export { normalizeCandles } from "./normalize";
 export type {
+  AnalysisVisibility,
+  AnalysisVisibilityMode,
+  AnalyzeOptions,
   CandleRow,
   CandleAnatomy,
+  CausalityClassification,
+  CausalityRecord,
   DatasetQuality,
   DatasetMetadata,
   DatasetSourceFormat,
