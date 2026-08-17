@@ -1,0 +1,22 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+.env
+.env.*
+!.env.example
+.vscode/
+*.log
+
+# Generated / runtime data
+*.bin
+*.pkl
+
+# Archives / generated source bundles
+*.zip
+
+# Python cache
+.pytest_cache/
+.mypy_cache/
+
